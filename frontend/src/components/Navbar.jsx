@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 // import useToken from "./useToken";
 import './Navbar.css';
 
+const baseUrl = "http://redpillsage.com:5000"
+const LOGOUT_URL = `${baseUrl}/logout`;
+
 function Navbar(props) {
 
   const navigate = useNavigate();
@@ -13,7 +16,8 @@ function Navbar(props) {
     function logMeOut() {
         axios({
             method: "POST",
-            url:"http://127.0.0.1:5000/logout",
+            url:LOGOUT_URL,
+            // url:"http://127.0.0.1:5000/logout",
         })
         .then((response) => {
             props.token()

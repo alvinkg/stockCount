@@ -2,8 +2,12 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import './Login.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Login.css'
+
+const baseUrl = "http://redpillsage.com:5000"
+// const baseUrl = "http://localhost:5000"
+const LOGIN_URL =`${baseUrl}/logintoken`;
  
 function Login(props) {
       
@@ -17,7 +21,8 @@ function Login(props) {
     function btnlogin(event) {
         axios({
             method: "POST",
-            url:"http://127.0.0.1:5000/logintoken",
+            url:LOGIN_URL,
+            // url:"http://127.0.0.1:5000/logintoken",
             data:{
               email: loginForm.email,
               password: loginForm.password

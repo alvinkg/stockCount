@@ -1,12 +1,10 @@
-// import React from 'react'
+
 // import Login from './Login'
 import Header from "./Header";
 import Footer from "./Footer";
 import useToken from './useToken'
 
-// import Shop from '../pages/Shop';
-// import Profile from '../pages/Profile';
-// import Wallet from '../pages/Wallet';
+
 import Signup from '../pages/Signup';
 import Error from '../pages/Error';
 

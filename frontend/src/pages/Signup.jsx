@@ -10,7 +10,10 @@ import './Signup.css'
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const EMAIL_REGEX =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const REGISTER_URL = 'http://127.0.0.1:5000/signup';
+const baseUrl = "http://redpillsage.com:5000"
+// const baseUrl = "http://localhost:5000"
+const REGISTER_URL =`${baseUrl}/signup`;
+// const REGISTER_URL = 'http://127.0.0.1:5000/signup';
 
 const Signup = () => {
     // sets the focus on user input when loading component

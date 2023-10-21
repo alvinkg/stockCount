@@ -9,7 +9,6 @@ const SharedLayout = () => {
     <>
         <Navbar token={removeToken}/>
         <Outlet />
-        {/* <Navbar token={removeToken}/> */}
     </>
   );
 };

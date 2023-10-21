@@ -2,9 +2,10 @@ import  { useState, useEffect } from 'react'
 import axios from "axios"
 import { format } from "date-fns";
 import './StockCount.css';
-// import { Toast } from 'bootstrap';
 
-const baseUrl = "http://localhost:5000"
+
+const baseUrl = "http://redpillsage.com:5000"
+// const baseUrl = "http://localhost:5000"
 
 function Home() {
   //state var
