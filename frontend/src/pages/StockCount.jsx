@@ -4,7 +4,8 @@ import { format } from "date-fns";
 import './StockCount.css';
 
 
-const baseUrl = "http://redpillsage.com:5000"
+const baseUrl = "https://redpillsage.com"
+// const baseUrl = "https://redpillsage.com:5000"
 // const baseUrl = "http://localhost:5000"
 
 function Home() {
@@ -177,55 +178,6 @@ function Home() {
   return (
     <div className="container">
 
-      {/* <section>
-        <form onSubmit={handleSubmit}>
-
-          <label htmlFor="description">Description</label>
-          <input
-            onChange={(e)=> handleChange(e, 'description')}
-            type="text"
-            name="description"
-            id="description"
-            placeholder='Product'
-            value={description}
-            required
-          />
-          <label htmlFor="quantity">Quantity</label>
-          <input
-            onChange={(e)=> handleChange(e, 'quantity')}
-            type="number"
-            name="quantity"
-            id="quantity"
-            placeholder='What we have'
-            value={quantity}
-          />
-          <label htmlFor="reorder">Reorder</label>
-          <input
-            onChange={(e)=> handleChange(e, 'reorder')}
-            type="number"
-            name="reorder"
-            id="reorder"
-            placeholder='Max we need'
-            value={reorder}
-            required
-          />
-          <label htmlFor="description">Safety</label>
-          <input
-            onChange={(e)=> handleChange(e, 'safety')}
-            type="number"
-            name="safety"
-            id="safety"
-            placeholder='Min we need'
-            value={safety}
-            required
-          />
-
-          <button
-            className='btn btn-success'
-            type="submit">Submit</button>
-        </form>
-      </section> */}
-
       <div className='container' style={{ display: "flex", margin: 10, padding: 10, overflow:'auto' }}>
       <ul className="list-group" style={{ display: "flex", margin: 10, padding: 10 }}>
           {/* map each event in the list into form */}
@@ -233,69 +185,47 @@ function Home() {
             // if we click 'edit' we load the selected event and pass eventId to form
             if (eventId === event.id) {
               return (     
-                <td key={event.id}>
-                  <form onSubmit={handleSubmit}>
-                    {/* <table className='table table-warning'> */}
-                      {/* <thead>
-                        <tr> */}
-                          {/* <td>Event ID</td> */}
-                          {/* <td>Description</td>
-                          <td>Quantity</td> */}
-                          {/* <td>Reorder Level</td> */}
-                          {/* <td>Safety Stock</td> */}
-                          {/* <td></td>
-                        </tr>
-                      </thead> */}
-                      {/* <tbody> */}
-                        {/* <tr> */}
-                          {/* <td>{event.id}</td> */}
-                        {/* <td> */}
-                          <input
-                            onChange={(e)=> handleChange(e, 'edit')}
-                            type="text"
-                            name="editDescription"
-                            id="editDescription"
-                            value={editDescription}
-                          />
-                        {/* </td> */}
-                        {/* <td> */}
-                          <input
-                            onChange={(e)=> handleChange(e, 'edit')}
-                            type="text"
-                            name="editQuantity"
-                            id="editQuantity"
-                            value={editQuantity}
-                          />
-                        {/* </td> */}
-  
-                        {/* <td>
-                          <input
-                            onChange={(e)=> handleChange(e, 'edit')}
-                            type="text"
-                            name="editReorder"
-                            id="editReorder"
-                            value={editReorder}
-                          />
-                        </td> */}
-                        {/* <td>
-                          <input
-                            onChange={(e)=> handleChange(e, 'edit')}
-                            type="text"
-                            name="editSafety"
-                            id="editSafety"
-                              value={editSafety}
-                          />
-                        </td> */}
+                    <li key={event.id}>
+                <form onSubmit={handleSubmit}>
 
-                        <td>
-                          <button className='btn btn-primary' type='submit'>Submit</button>
-                        </td>
-                        {/* </tr> */}
-                      {/* </tbody> */}
-                    {/* </table> */}
+                    <input
+                      onChange={(e)=> handleChange(e, 'edit')}
+                      type="text"
+                      name="editDescription"
+                      id="editDescription"
+                      value={editDescription}
+                    />
+            
+                    <input
+                      onChange={(e)=> handleChange(e, 'edit')}
+                      type="text"
+                      name="editQuantity"
+                      id="editQuantity"
+                      value={editQuantity}
+                    />
+
+                    {/* <input
+                      onChange={(e)=> handleChange(e, 'edit')}
+                      type="text"
+                      name="editReorder"
+                      id="editReorder"
+                      value={editReorder}
+                    />
+
+                    <input
+                      onChange={(e)=> handleChange(e, 'edit')}
+                      type="text"
+                      name="editSafety"
+                      id="editSafety"
+                        value={editSafety}
+                    /> */}
+          
+             
+                    <button className='btn btn-primary' type='submit'>Submit</button>
+
+
                   </form>
-                </td>
-
+                </li>
               )
             }
             else{

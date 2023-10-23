@@ -29,3 +29,8 @@ class Comment(db.Model):
 
     def __repr__(self):
         return f'<Comment "{self.content[:20]}...">'
+
+## for the dotenv variables
+
+added a new file .env-localDO
+

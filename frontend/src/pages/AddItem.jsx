@@ -2,7 +2,8 @@ import  { useRef, useState, useEffect } from 'react'
 import axios from "axios"
 // import { format } from "date-fns";
 import './StockCount.css';
-const baseUrl = "http://redpillsage.com:5000"
+const baseUrl = "https://redpillsage.com"
+// const baseUrl = "http://redpillsage.com:5000"
 // const baseUrl = "http://localhost:5000"
 
 function AddItem() {

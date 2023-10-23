@@ -10,9 +10,14 @@ import './Signup.css'
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const EMAIL_REGEX =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const baseUrl = "http://redpillsage.com:5000"
+
+const baseUrl = "https://redpillsage.com"
+// const baseUrl = "http://redpillsage.com:5000"
 // const baseUrl = "http://localhost:5000"
+
 const REGISTER_URL =`${baseUrl}/signup`;
+// const REGISTER_URL = 'https://redpillsage.com:5000';
+// const REGISTER_URL = 'https://redpillsage.com:5000/signup';
 // const REGISTER_URL = 'http://127.0.0.1:5000/signup';
 
 const Signup = () => {
@@ -97,6 +102,7 @@ const Signup = () => {
             setPassword('');
             setMatchPwd('');
         } catch (err) {
+            console.log(JSON.stringify(err.response?.data));
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 409) {

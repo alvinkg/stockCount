@@ -7,7 +7,7 @@ const Error = () => {
     <section className='section'>
       <h2>404</h2>
       <p>Page Not Found</p>
-      <Link to='/' >Return Home</Link>
+      <Link to='/' >Come Home to Braek</Link>
     </section>
   );
 };
