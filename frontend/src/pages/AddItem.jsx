@@ -2,7 +2,8 @@ import  { useRef, useState, useEffect } from 'react'
 import axios from "axios"
 // import { format } from "date-fns";
 import './StockCount.css';
-const baseUrl = "https://redpillsage.com"
+const baseUrl = "https://konvergentgroup.com/braek"
+// const baseUrl = "https://redpillsage.com"
 // const baseUrl = "http://redpillsage.com:5000"
 // const baseUrl = "http://localhost:5000"
 
@@ -35,6 +36,7 @@ function AddItem() {
 
   const fetchEvents = async () => {
     const data = await axios.get(`${baseUrl}/events`)
+    console.log(`${baseUrl}`)
     console.log("DATA: ", data)
     const { events } = data.data
     setEventsList(events);
@@ -111,6 +113,7 @@ function AddItem() {
             safety: editSafety
           })
         const updatedEvent = data.data.event;
+        console.log(`${baseUrl}/events/${eventId}`)
         console.log(data)
         console.log('status:', data.status)
         // console.log('updatedEvent:', updatedEvent)
@@ -127,6 +130,7 @@ function AddItem() {
         // if we did not edit
       } else {
         // we post the latest data to the api endpt
+        console.log(`${baseUrl}`)
         const data = await axios.post(`${baseUrl}/events`, { description: description, quantity: quantity, reorder: reorder, safety: safety })
         setFormData(data.data)
         console.log('formData:', formData) // confirm info is passed to state

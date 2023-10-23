@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css'
 
-const baseUrl = "https://redpillsage.com"
+const baseUrl = "https://konvergentgroup.com/braek"
+// const baseUrl = "https://redpillsage.com"
 // const baseUrl = "https://redpillsage.com:5000"
 // const baseUrl = "http://localhost:5000"
 const LOGIN_URL =`${baseUrl}/logintoken`;
@@ -26,11 +27,12 @@ function Login(props) {
             // url:"http://127.0.0.1:5000/logintoken",
             data:{
               email: loginForm.email,
-              password: loginForm.password
-             }
-        })
+              password: loginForm.password,
+              name: loginForm.name
+            }
+          })
         .then((response) => {
-            // console.log(response)
+            console.log('props:', props)
             props.setToken(response.data.access_token)
             alert("Successfully Login");
             localStorage.setItem('email', loginForm.email)

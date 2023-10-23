@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 // import useToken from "./useToken";
 import './Navbar.css';
 
-// const baseUrl = "http://localhost:3000"
-const baseUrl = "https://stockcountbraek.netlify.app"
+const baseUrl = "http://localhost:3000"
+// const baseUrl = "https://stockcountbraek.netlify.app"
 
-const LOGOUT_URL = "https://redpillsage.com/logout";
+const LOGOUT_URL = "https://konvergentgroup.com/braek/logout";
+// const LOGOUT_URL = "https://redpillsage.com/logout";
 // const LOGOUT_URL = "http://127.0.0.1:5000/logout";
 
 function Navbar(props) {
@@ -28,8 +29,8 @@ function Navbar(props) {
           // return to a main page currently
           navigate("/");
           //add due to logout blank screen
-          window.location.href='/'
-          // window.location.href='http://localhost:3000/'
+          // window.location.href='/'
+          window.location.href='http://localhost:3000/'
         }).catch((error) => {
             if (error.response) {
                 console.log(error.response)
@@ -53,15 +54,12 @@ function Navbar(props) {
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <a className="nav-link active" aria-current="page" href={`${baseUrl}/stockcount`}>Stock Count</a>
-                  {/* <a className="nav-link active" aria-current="page" href="http://127.0.0.1:3000/stockcount">Stock Count</a> */}
                 </li>
                 <li className="nav-item">
                   <a className="nav-link active" aria-current="page" href={`${baseUrl}/additem`} >Add Item</a>
-                  {/* <a className="nav-link active" aria-current="page" href="http://127.0.0.1:3000/additem">Add Item</a> */}
                 </li>
                 <li className="nav-item">
                   <a className="nav-link active" aria-current="page" href={`${baseUrl}/signup`}>Sign Up</a>
-                  {/* <a className="nav-link active" aria-current="page" href="http://127.0.0.1:3000/signup">Sign Up</a> */}
                 </li>
               </ul>
                 {!logged?

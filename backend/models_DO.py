@@ -26,7 +26,7 @@ print(database_exists(engine.url))
 def get_uuid():
     return uuid4().hex
 
-class User(db.Model):
+class Name(db.Model):
     # note the creation of a unique id with uuid
     id = db.Column(db.String(100), primary_key=True, unique=True, default=get_uuid) #
     name = db.Column(db.String(150), unique=False)
