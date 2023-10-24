@@ -13,7 +13,7 @@ from flask_cors import CORS
 
 import psycopg2
 
-from models import db, User, Product, Event, Cart, Wallet, format_event
+from models import db, Name, Product, Event, Cart, Wallet, format_event
 
 # Use this if we don't connect via SQLAlchemy
 # print(dotenv_path)
@@ -271,7 +271,7 @@ def create_topup():
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    user = User.query.filter_by(email=email).first()
+    user = Name.query.filter_by(email=email).first()
     hashed_password = bcrypt.generate_password_hash(password).decode('utf8')
 
     print("password:", password)
@@ -302,14 +302,14 @@ def signup():
     email = request.json["email"]
     password = request.json["password"]
     name = request.json["name"]
-    user_exists = User.query.filter_by(email=email).first() is not None
+    user_exists = Name.query.filter_by(email=email).first() is not None
 
     if user_exists:
-        return jsonify({"error": "User with this email already exists."}), 409
+        return jsonify({"error": "Name with this email already exists."}), 409
     
     hashed_password = bcrypt.generate_password_hash(password).decode('utf8')
     print("hashed password:", hashed_password)
-    new_user = User(email=email, password=hashed_password, name=name, about="what about me?")
+    new_user = Name(email=email, password=hashed_password, name=name, about="what about me?")
     print("new user password:", new_user.password)
     db.session.add(new_user)
     db.session.commit()
@@ -348,7 +348,7 @@ def my_profile(getemail):
         # this does not get to work
         return jsonify({"error": "Unauthorized Access"}), 401
     
-    user = User.query.filter_by(email=getemail).first()
+    user = Name.query.filter_by(email=getemail).first()
     print("user:", user)
     
     if user == None:
