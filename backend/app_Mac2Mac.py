@@ -13,7 +13,7 @@ from flask_cors import CORS
 
 import psycopg2
 
-from models import db, User, Product, Event, Cart, Wallet, format_event
+from models import db, Name, Product, Event, Cart, Wallet, format_event, format_name
 
 # Use this if we don't connect via SQLAlchemy
 # print(dotenv_path)
@@ -236,7 +236,139 @@ def update_event(id):
     #5 return serialized/formatted obj
     return {'event': format_event(event.one())}
 
+#####################################
 
+# get all names
+@app.route('/names', methods=['GET'])
+def get_names():
+    # order by created_at / id
+    names = Name.query.order_by(Name.id.asc()).all()
+    # events = Event.query.order_by(Event.created_at.desc()).all()
+
+    # create empty event list
+    name_list = []
+    for name in names:
+        # append each event to the list
+        name_list.append(format_name(name))
+    return {'names': name_list}
+
+# get single name
+@app.route('/names/<id>', methods=['GET'])
+def get_name(id):
+    name = Name.query.filter_by(id=id).one()
+    formatted_name = format_name(name)
+    return {'name': formatted_name}
+
+@app.route('/logintoken', methods=["POST"])
+def create_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    user = Name.query.filter_by(email=email).first()
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf8')
+
+    print("password:", password)
+    print("hashed_password:", hashed_password)
+    if user is None:
+        return jsonify({"error": "Wrong email or password"}), 401
+    else:
+        print("user.password:", user.password)
+    if not bcrypt.check_password_hash(user.password, password):
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    # Create an access_token
+    access_token = create_access_token(identity=email)
+    # create response, a jsonified object
+    response = jsonify({
+        "msg": "login successful",
+        "access_token": access_token
+    })
+    # run mtd to set access_token in the local Storage
+    set_access_cookies(response, access_token)
+    
+    return {
+        "msg": "Success",
+        "email": email,
+        "password": password,
+        "access_token": access_token
+    }
+
+# mtd to create a name in Name table
+@app.route("/signup", methods=["POST"])
+def signup():
+    # extract json obj from request assigning variable vals 
+    email = request.json["email"]
+    password = request.json["password"]
+    name = request.json["name"]
+    name_exists = Name.query.filter_by(email=email).first() is not None
+    # prevent duplicate name creation
+    if name_exists:
+        return jsonify({"error": "Name with this email already exists."}), 409
+    # gen hashed_password
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf8')
+    print("hashed password:", hashed_password)
+    # create new entry in Name table
+    new_name = Name(email=email, password=hashed_password, name=name, about="what about me?")
+    print("new name password:", new_name.password)
+    db.session.add(new_name)
+    db.session.commit()
+    # return format_name(new_name)
+    
+    return jsonify({
+        "id": new_name.id,
+        "email": email,
+        "password": new_name.password
+    })
+
+# https://flask-jwt-extended.readthedocs.io/en/stable/refreshing_tokens.html
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(response, access_token)
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT.  Just return the original response
+        return response
+
+@app.route("/profile/<getemail>")
+# @jwt_required() # only available with token
+def my_profile(getemail):
+    print("getemail:", getemail)
+    
+    if not getemail: # if it doesn't have value / exist
+        # this does not get to work
+        return jsonify({"error": "Unauthorized Access"}), 401
+    
+    name = Name.query.filter_by(email=getemail).first()
+    print("user:", name)
+    
+    if name == None:
+        return "No such name"
+    else:
+        response_body = {
+            "id": name.id,
+            "name": name.name,
+            "email": name.email,
+            "about": name.about
+        }
+        
+        return response_body
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
+
+#####################################
 
 def format_wallet(wallet):
     return {
@@ -264,110 +396,6 @@ def create_topup():
     db.session.add(wallet)
     db.session.commit()
     return format_wallet(wallet)
-
-#####################################
-
-@app.route('/logintoken', methods=["POST"])
-def create_token():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    user = User.query.filter_by(email=email).first()
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf8')
-
-    print("password:", password)
-    print("hashed_password:", hashed_password)
-    if user is None:
-        return jsonify({"error": "Wrong email or password"}), 401
-    else:
-        print("user.password:", user.password)
-    if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"error": "Unauthorized"}), 401
-    
-    access_token = create_access_token(identity=email)
-    response = jsonify({
-        "msg": "login successful",
-        "access_token": access_token
-    })
-    set_access_cookies(response, access_token)
-    
-    return {
-        "msg": "Success",
-        "email": email,
-        "password": password,
-        "access_token": access_token
-    }
-
-@app.route("/signup", methods=["POST"])
-def signup():
-    email = request.json["email"]
-    password = request.json["password"]
-    name = request.json["name"]
-    user_exists = User.query.filter_by(email=email).first() is not None
-
-    if user_exists:
-        return jsonify({"error": "User with this email already exists."}), 409
-    
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf8')
-    print("hashed password:", hashed_password)
-    new_user = User(email=email, password=hashed_password, name=name, about="what about me?")
-    print("new user password:", new_user.password)
-    db.session.add(new_user)
-    db.session.commit()
-    
-    return jsonify({
-        "id": new_user.id,
-        "email": email,
-        "password": new_user.password
-    })
-
-# https://flask-jwt-extended.readthedocs.io/en/stable/refreshing_tokens.html
-@app.after_request
-def refresh_expiring_jwts(response):
-    try:
-        exp_timestamp = get_jwt()["exp"]
-        now = datetime.now(timezone.utc)
-        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
-        if target_timestamp > exp_timestamp:
-            access_token = create_access_token(identity=get_jwt_identity())
-            set_access_cookies(response, access_token)
-            data = response.get_json()
-            if type(data) is dict:
-                data["access_token"] = access_token
-                response.data = json.dumps(data)
-        return response
-    except (RuntimeError, KeyError):
-        # Case where there is not a valid JWT.  Just return the original response
-        return response
-
-@app.route("/profile/<getemail>")
-@jwt_required() # only available with token
-def my_profile(getemail):
-    print("getemail:", getemail)
-    
-    if not getemail: # if it doesn't have value / exist
-        # this does not get to work
-        return jsonify({"error": "Unauthorized Access"}), 401
-    
-    user = User.query.filter_by(email=getemail).first()
-    print("user:", user)
-    
-    if user == None:
-        return "No such user"
-    else:
-        response_body = {
-            "id": user.id,
-            "name": user.name,
-            "email": user.email,
-            "about": user.about
-        }
-        
-        return response_body
-
-@app.route("/logout", methods=["POST"])
-def logout():
-    response = jsonify({"msg": "logout successful"})
-    unset_jwt_cookies(response)
-    return response
 
 #####################################
 

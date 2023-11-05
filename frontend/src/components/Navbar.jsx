@@ -7,9 +7,9 @@ import './Navbar.css';
 const baseUrl = "http://localhost:3000"
 // const baseUrl = "https://stockcountbraek.netlify.app"
 
-const LOGOUT_URL = "https://konvergentgroup.com/braek/logout";
+// const LOGOUT_URL = "https://konvergentgroup.com/braek/logout";
 // const LOGOUT_URL = "https://redpillsage.com/logout";
-// const LOGOUT_URL = "http://127.0.0.1:5000/logout";
+const LOGOUT_URL = "http://127.0.0.1:5000/logout";
 
 function Navbar(props) {
 
@@ -20,8 +20,8 @@ function Navbar(props) {
     function logMeOut() {
         axios({
             method: "POST",
-            url:LOGOUT_URL,
-            // url:"http://127.0.0.1:5000/logout",
+            // url:LOGOUT_URL,
+            url:"http://127.0.0.1:5000/logout",
         })
         .then((response) => {
             props.token()
@@ -30,7 +30,8 @@ function Navbar(props) {
           navigate("/");
           //add due to logout blank screen
           // window.location.href='/'
-          window.location.href='http://localhost:3000/'
+          window.location.href= baseUrl
+          // window.location.href='http://localhost:3000/'
         }).catch((error) => {
             if (error.response) {
                 console.log(error.response)
@@ -56,6 +57,9 @@ function Navbar(props) {
                   <a className="nav-link active" aria-current="page" href={`${baseUrl}/stockcount`}>Stock Count</a>
                 </li>
                 <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href={`${baseUrl}/users`}>Users</a>
+                </li>
+                <li className="nav-item">
                   <a className="nav-link active" aria-current="page" href={`${baseUrl}/additem`} >Add Item</a>
                 </li>
                 <li className="nav-item">
@@ -63,8 +67,8 @@ function Navbar(props) {
                 </li>
               </ul>
                 {!logged?
-                    ''// <button className="btn btn-outline-success" type="submit">Login</button>
-                :<button className="btn btn-outline-danger" type="submit" onClick={logMeOut}>Logout</button>}
+                  ''// <button className="btn btn-outline-success" type="submit">Login</button>
+                  :<button className="btn btn-outline-danger" type="submit" onClick={logMeOut}>Logout</button>}
             </div>
           </div>
         </div>

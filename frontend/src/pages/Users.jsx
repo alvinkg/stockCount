@@ -9,7 +9,7 @@ import './StockCount.css';
 // const baseUrl = "https://redpillsage.com:5000"
 const baseUrl = "http://localhost:5000"
 
-function StockCount() {
+function Users() {
   //state var
   const [description, setDescription] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -40,14 +40,14 @@ function StockCount() {
     })
   }
 
-  const fetchEvents = async () => {
-    const data = await axios.get(`${baseUrl}/events`)
+  const fetchUsers = async () => {
+    const data = await axios.get(`${baseUrl}/users`)
     console.log("DATA: ", data)
     const { events } = data.data
     setEventsList(events);
   }
   useEffect(() => {
-    fetchEvents();
+    fetchUsers();
   }, [])
 
   const handleChange = (e, field) => {
@@ -297,4 +297,4 @@ function StockCount() {
   );
 }
 
-export default StockCount;
+export default Users;

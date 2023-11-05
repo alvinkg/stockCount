@@ -7,6 +7,7 @@ import useToken from './useToken'
 
 import Signup from '../pages/Signup';
 import Error from '../pages/Error';
+import Users from '../pages/Users';
 
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
@@ -16,9 +17,9 @@ const Router = () => {
         
         return (
             <>
-                <Header/>
-                <Outlet/>
-                <Footer/>
+                {/* <Header/> */}
+                {/* <Outlet/> */}
+                {/* <Footer/> */}
             </>
         )
     }
@@ -28,17 +29,17 @@ const Router = () => {
 
         return (
             <BrowserRouter>
-                
-            <Routes>
-              <Route path='/' element={<Layout/>} >
-                {/* <Route index element={<Shop/>}/> */}
-                {/* <Route path='about' element={<Profile/>} /> */}
-                {/* <Route path='products' element={<Wallet/>} /> */}
-                <Route path='products' element={<Signup/>} />
-                <Route path='*' element={<Error />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+                <Routes>
+                    {/* <Route path='/' element={<Layout/>} > */}
+                        {/* <Route index element={<Shop/>}/> */}
+                        {/* <Route path='about' element={<Profile/>} /> */}
+                        {/* <Route path='products' element={<Wallet/>} /> */}
+                        {/* <Route path='users' element={<Users/>} /> */}
+                        {/* <Route path='products' element={<Signup/>} /> */}
+                        {/* <Route path='*' element={<Error />} /> */}
+                    </Route>
+                </Routes>
+            </BrowserRouter>
         )
     }
 

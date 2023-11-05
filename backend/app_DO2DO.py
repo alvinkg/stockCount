@@ -13,7 +13,7 @@ from flask_cors import CORS
 
 import psycopg2
 
-from models_DO import db, Name, Product, Event, Cart, Wallet, format_event
+from models_DO import db, Name, Product, Event, Cart, Wallet, format_event, format_name
 
 # Use this if we don't connect via SQLAlchemy
 #print(dotenv_path)
@@ -50,6 +50,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://alvin:alvin@localhost/alvi
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = True
 
+# create bcrypt obj
 bcrypt = Bcrypt(app)
 
 # initialize the app with the extension
@@ -269,6 +270,27 @@ def create_topup():
 
 #####################################
 
+# get all names
+@app.route('/names', methods=['GET'])
+def get_names():
+    # order by created_at / id
+    names = Name.query.order_by(Name.id.asc()).all()
+    # events = Event.query.order_by(Event.created_at.desc()).all()
+
+    # create empty event list
+    name_list = []
+    for name in names:
+        # append each event to the list
+        name_list.append(format_name(name))
+    return {'names': name_list}
+
+# get single name
+@app.route('/names/<id>', methods=['GET'])
+def get_name(id):
+    name = Name.query.filter_by(id=id).one()
+    formatted_name = format_name(name)
+    return {'name': formatted_name}
+
 @app.route('/logintoken', methods=["POST"])
 def create_token():
     email = request.json.get("email", None)
@@ -298,28 +320,29 @@ def create_token():
         "password": password,
         "access_token": access_token
     }
-
+    
+# mtd to create a name in Name table
 @app.route("/signup", methods=["POST"])
 def signup():
     email = request.json["email"]
     password = request.json["password"]
     name = request.json["name"]
-    user_exists = Name.query.filter_by(email=email).first() is not None
+    name_exists = Name.query.filter_by(email=email).first() is not None
 
-    if user_exists:
+    if name_exists:
         return jsonify({"error": "Name with this email already exists."}), 409
     
     hashed_password = bcrypt.generate_password_hash(password).decode('utf8')
     print("hashed password:", hashed_password)
-    new_user = Name(email=email, password=hashed_password, name=name, about="what about me?")
-    print("new user password:", new_user.password)
-    db.session.add(new_user)
+    new_name = Name(email=email, password=hashed_password, name=name, about="what about me?")
+    print("new user password:", new_name.password)
+    db.session.add(new_name)
     db.session.commit()
     
     return jsonify({
-        "id": new_user.id,
+        "id": new_name.id,
         "email": email,
-        "password": new_user.password
+        "password": new_name.password
     })
 
 # https://flask-jwt-extended.readthedocs.io/en/stable/refreshing_tokens.html

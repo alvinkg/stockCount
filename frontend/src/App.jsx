@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import SharedLayout from './components/SharedLayout';
 import StockCount from './pages/StockCount';
 import ProtectedRoutes from './components/ProtectedRoutes';
+import Users from './pages/Users';
 
 function App() {
      
@@ -35,6 +36,7 @@ function App() {
                     <Route element={<ProtectedRoutes token={token} setToken={setToken}/>}>
                       <Route path='/stockcount' element={<StockCount />}></Route>
                       <Route path='/additem' element={<AddItem />}></Route>
+                      <Route path='/users' element={<Users />}></Route>
                     </Route>
                   </Route>
                 </Routes>
