@@ -4,10 +4,10 @@ import { format } from "date-fns";
 import './StockCount.css';
 
 
-// const baseUrl = "https://konvergentgroup.com/braek"
+const baseUrl = "https://konvergentgroup.com/braek"
 // const baseUrl = "https://redpillsage.com"
 // const baseUrl = "https://redpillsage.com:5000"
-const baseUrl = "http://localhost:5000"
+// const baseUrl = "http://localhost:5000"
 
 function StockCount() {
   //state var

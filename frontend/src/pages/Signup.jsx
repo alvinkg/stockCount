@@ -11,10 +11,10 @@ const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const EMAIL_REGEX =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-// const baseUrl = "https://konvergentgroup.com/braek"
+const baseUrl = "https://konvergentgroup.com/braek"
 // const baseUrl = "https://redpillsage.com"
 // const baseUrl = "http://redpillsage.com:5000"
-const baseUrl = "http://localhost:5000"
+// const baseUrl = "http://localhost:5000"
 
 // const REGISTER_URL =`${baseUrl}/signup`;
 // const REGISTER_URL = 'https://redpillsage.com:5000';

@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 // import useToken from "./useToken";
 import './Navbar.css';
 
-const baseUrl = "http://localhost:3000"
-// const baseUrl = "https://stockcountbraek.netlify.app"
+// const baseUrl = "http://localhost:3000"
+const baseUrl = "https://stockcountbraek.netlify.app"
 
-// const LOGOUT_URL = "https://konvergentgroup.com/braek/logout";
+const LOGOUT_URL = "https://konvergentgroup.com/braek/logout";
 // const LOGOUT_URL = "https://redpillsage.com/logout";
-const LOGOUT_URL = "http://127.0.0.1:5000/logout";
+// const LOGOUT_URL = "http://127.0.0.1:5000/logout";
 
 function Navbar(props) {
 
@@ -20,8 +20,8 @@ function Navbar(props) {
     function logMeOut() {
         axios({
             method: "POST",
-            // url:LOGOUT_URL,
-            url:"http://127.0.0.1:5000/logout",
+            url:LOGOUT_URL,
+            // url:"http://127.0stockcountbraek.0.1:5000/logout",
         })
         .then((response) => {
             props.token()

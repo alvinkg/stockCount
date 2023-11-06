@@ -240,7 +240,6 @@ def update_event(id):
     return {'event': format_event(event.one())}
 
 
-
 def format_wallet(wallet):
     return {
         "product": wallet.product,
